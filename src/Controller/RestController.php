@@ -12,6 +12,7 @@ use Elements\Bundle\ProcessManagerBundle\Helper;
 use Elements\Bundle\ProcessManagerBundle\Model\Configuration;
 use Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem;
 use Pimcore\Controller\FrontendController;
+use Pimcore\Model\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/webservice/elementsprocessmanager/rest')]
 class RestController extends FrontendController
 {
-    protected function getApiUser(Request $request): JsonResponse|\Pimcore\Model\User
+    protected function getApiUser(Request $request): JsonResponse|User
     {
-        $user = \Pimcore\Model\User::getByName($request->get('username'));
-        if(!$user instanceof \Pimcore\Model\User) {
+        $user = User::getByName($request->get('username'));
+        if(!$user instanceof User) {
             return $this->json(['success' => false, 'message' => 'User not found']);
         }
 
@@ -38,7 +39,7 @@ class RestController extends FrontendController
                 }
             }
         }
-        if($validApiUser == false) {
+        if(!$validApiUser) {
             return $this->json(['success' => false, 'message' => 'The user is not a valid api user']);
         }
         if(!$user->getPermission(Enums\Permissions::EXECUTE) || !$user->getPermission(Enums\Permissions::VIEW)) {
@@ -48,14 +49,11 @@ class RestController extends FrontendController
         return $user;
     }
 
-    /**
-     * @return JsonResponse
-     */
     #[Route(path: '/execute')]
-    public function executeAction(Request $request)
+    public function executeAction(Request $request): JsonResponse
     {
         $user = $this->getApiUser($request);
-        if($user instanceof \Pimcore\Model\User == false) {
+        if(!$user instanceof User) {
             return $user;
         }
 
@@ -97,14 +95,11 @@ class RestController extends FrontendController
         return $this->json($result);
     }
 
-    /**
-     * @return JsonResponse
-     */
     #[Route(path: '/monitoring-item-state')]
-    public function monitoringItemStateAction(Request $request)
+    public function monitoringItemStateAction(Request $request): JsonResponse
     {
         $user = $this->getApiUser($request);
-        if($user instanceof \Pimcore\Model\User == false) {
+        if($user instanceof User == false) {
             return $user;
         }
 
