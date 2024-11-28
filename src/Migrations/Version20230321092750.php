@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 

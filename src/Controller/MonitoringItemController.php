@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 
@@ -424,6 +424,7 @@ class MonitoringItemController extends UserAwareController
             return new JsonResponse(['html' => $this->renderView('@ElementsProcessManager/MonitoringItem/logFileLogger.html.twig', $viewData),
                 'monitoringItem' => $monitoringItem->getObjectVars()]);
         }
+
         return $this->render('@ElementsProcessManager/MonitoringItem/logFileLogger.html.twig', $viewData);
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 
@@ -39,9 +39,9 @@ class BundleConfiguration
         return $this->config['processTimeoutMinutes'];
     }
 
-    public function getRefreshIntervalSeconds() : int
+    public function getRefreshIntervalSeconds(): int
     {
-        return $this->config["refreshIntervalSeconds"] ?? 3;
+        return $this->config['refreshIntervalSeconds'] ?? 3;
     }
 
     /**

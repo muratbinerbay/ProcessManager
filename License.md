@@ -1,5 +1,5 @@
 # License
-Copyright (C) elements.at New Media Solutions GmbH
+Copyright (C) valantic CX Austria GmbH (valantic.at)
 
 This software is available under two different licenses: 
 * GNU General Public License version 3 (GPLv3) as Pimcore Community Edition

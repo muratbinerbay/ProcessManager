@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 
@@ -91,7 +91,7 @@ class IndexController extends UserAwareController
         }
 
         $data['refreshIntervalSeconds'] = $bundleConfig->getRefreshIntervalSeconds();
-        
+
         if($data['shortCutMenu'] ?? null) {
             ksort($data['shortCutMenu'], SORT_LOCALE_STRING);
         }

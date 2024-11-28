@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 

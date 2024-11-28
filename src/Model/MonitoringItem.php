@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by Elements.at New Media Solutions GmbH
+ * Created by valantic CX Austria GmbH
  *
  */
 
@@ -12,7 +12,6 @@ use Elements\Bundle\ProcessManagerBundle\Executor\Logger\AbstractLogger;
 use Elements\Bundle\ProcessManagerBundle\Message\CheckCommandAliveMessage;
 use Elements\Bundle\ProcessManagerBundle\Message\StopProcessMessage;
 use Monolog\Logger;
-use mysql_xdevapi\SqlStatementResult;
 use Symfony\Component\Process\Process;
 
 /**
@@ -278,7 +277,7 @@ class MonitoringItem extends \Pimcore\Model\AbstractModel
     {
         if (is_array($data) && $data !== []) {
             foreach ($data as $key => $value) {
-                if (in_array($key, ['callbackSettings', 'actions', 'loggers','metaData']) && is_string($value)) {
+                if (in_array($key, ['callbackSettings', 'actions', 'loggers', 'metaData']) && is_string($value)) {
                     $value = json_decode($value, true);
                 }
                 if ($key == 'message' && is_string($value)) {

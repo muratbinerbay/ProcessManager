@@ -7,7 +7,7 @@ elements_process_manager:
     processTimeoutMinutes : 60
     disableShortcutMenu : false
     additionalScriptExecutionUsers : ["www-data","stagingUser"]
-    reportingEmailAddresses : ["christian.kogler@elements.at"]
+    reportingEmailAddresses : ["firstname.lastname@example.com"]
     restApiUsers:
         - {username: "tester" , apiKey: "1234"}
         - {username: "tester2" , apiKey: "344"}

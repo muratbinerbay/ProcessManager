@@ -19,7 +19,7 @@ $config->setRules([
 
     'header_comment'         => [
         'comment_type' => 'PHPDoc',
-        'header' => 'Created by Elements.at New Media Solutions GmbH' . PHP_EOL
+        'header' => 'Created by valantic CX Austria GmbH' . PHP_EOL
     ],
 
     'blank_line_before_statement'         => true,
