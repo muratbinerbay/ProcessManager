@@ -19,7 +19,7 @@ class Dao extends Model\Listing\Dao\AbstractDao
     }
 
     /**
-     * @return array<mixed>
+     * @return CallbackSetting[]
      *
      * @throws \Doctrine\DBAL\Exception
      */
@@ -32,6 +32,8 @@ class Dao extends Model\Listing\Dao\AbstractDao
         foreach ($ids as $id) {
             $items[] = CallbackSetting::getById($id);
         }
+
+        $this->model->setData($items);
 
         return $items;
     }
