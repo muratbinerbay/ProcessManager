@@ -192,14 +192,15 @@ class Maintenance
     /**
      * @return void
      */
-    protected function clearMonitoringLogs()
+    protected function clearMonitoringLogs(): void
     {
         $this->monitoringItem->setCurrentStep(3)->setMessage('Clearing monitoring logs')->save();
         $logger = $this->monitoringItem->getLogger();
 
         $threshold = ElementsProcessManagerBundle::getConfiguration()->getArchiveThresholdLogs();
         if ($threshold !== 0) {
-            $timestamp = Carbon::createFromTimestamp(time())->subDay($threshold)->getTimestamp();
+            $timestamp = Carbon::now()->subDays($threshold)->getTimestamp();
+
             $list = new MonitoringItem\Listing();
             $list->setCondition('modificationDate <= '. $timestamp);
             $items = $list->load();
