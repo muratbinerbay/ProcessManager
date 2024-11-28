@@ -162,12 +162,10 @@ class MonitoringItemController extends UserAwareController
         return $this->jsonResponse(['success' => true]);
     }
 
-    /**
-     * @return JsonResponse
-     */
     #[Route(path: '/list-processes-for-user')]
-    public function listProcessesForUser(): JsonResponse
+    public function listProcessesForUser(Request $request): JsonResponse
     {
+        $request->getSession()->save();
         $data = [
             'total' => 0,
             'active' => 0,
