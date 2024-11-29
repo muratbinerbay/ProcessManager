@@ -11,7 +11,7 @@ use Pimcore\Bundle\ApplicationLoggerBundle\ApplicationLogger;
 
 class Logger extends ApplicationLogger
 {
-    public function log($level, $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         parent::log($level, $message, $context);
         $monitoringItem = \Elements\Bundle\ProcessManagerBundle\ElementsProcessManagerBundle::getMonitoringItem();

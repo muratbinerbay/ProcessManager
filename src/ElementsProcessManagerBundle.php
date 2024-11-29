@@ -150,10 +150,7 @@ class ElementsProcessManagerBundle extends AbstractPimcoreBundle implements Pimc
      */
     public static function shutdownHandler(array $arguments): void
     {
-        /**
-         * @var $monitoringItem MonitoringItem
-         */
-        if (($monitoringItem = self::getMonitoringItem()) instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
+        if (($monitoringItem = self::getMonitoringItem()) instanceof MonitoringItem) {
             $error = error_get_last();
             Helper::executeMonitoringItemLoggerShutdown($monitoringItem);
 

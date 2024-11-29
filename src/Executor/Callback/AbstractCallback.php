@@ -34,12 +34,10 @@ abstract class AbstractCallback
         $this->setExtJsClass($extJsClass);
         $this->setJsFile($jsFile);
 
-        if (is_array($config)) {
-            foreach ($config as $key => $value) {
-                $setter = 'set'.ucfirst($key);
-                if (method_exists($this, $setter)) {
-                    $this->$setter($value);
-                }
+        foreach ($config as $key => $value) {
+            $setter = 'set'.ucfirst($key);
+            if (method_exists($this, $setter)) {
+                $this->$setter($value);
             }
         }
     }
@@ -87,29 +85,20 @@ abstract class AbstractCallback
     /**
      * @param array<mixed> $config
      *
-     * @return $this
      */
-    public function setConfig(array $config)
+    public function setConfig(array $config): self
     {
         $this->config = $config;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getJsFile(): string
     {
         return $this->jsFile;
     }
 
-    /**
-     * @param string $jsFile
-     *
-     * @return $this
-     */
-    public function setJsFile(string $jsFile)
+    public function setJsFile(string $jsFile): self
     {
         $this->jsFile = $jsFile;
 

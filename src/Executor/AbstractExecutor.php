@@ -258,13 +258,10 @@ abstract class AbstractExecutor implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return Configuration
-     */
     public function setDataFromResource(Configuration $configuration): Configuration
     {
         $settings = $configuration->getExecutorSettings();
-        if (is_string($settings)) {
+        if (!empty($settings)) {
             $this->setData(json_decode($settings, true, 512, JSON_THROW_ON_ERROR));
         }
         $this->setConfig($configuration);

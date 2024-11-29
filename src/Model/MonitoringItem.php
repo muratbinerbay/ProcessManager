@@ -273,18 +273,16 @@ class MonitoringItem extends \Pimcore\Model\AbstractModel
      *
      * @return $this
      */
-    public function setValues($data = [], bool $ignoreEmptyValues = false): static
+    public function setValues(array $data = [], bool $ignoreEmptyValues = false): static
     {
-        if (is_array($data) && $data !== []) {
-            foreach ($data as $key => $value) {
-                if (in_array($key, ['callbackSettings', 'actions', 'loggers', 'metaData']) && is_string($value)) {
-                    $value = json_decode($value, true);
-                }
-                if ($key == 'message' && is_string($value)) {
-                    $this->setMessage($value, false);
-                } else {
-                    $this->setValue($key, $value);
-                }
+        foreach ($data as $key => $value) {
+            if (in_array($key, ['callbackSettings', 'actions', 'loggers', 'metaData']) && is_string($value)) {
+                $value = json_decode($value, true);
+            }
+            if ($key == 'message' && is_string($value)) {
+                $this->setMessage($value, false);
+            } else {
+                $this->setValue($key, $value);
             }
         }
 

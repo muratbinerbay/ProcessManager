@@ -23,7 +23,6 @@ class Helper
      *
      * @return array<mixed>
      *
-     * @throws \JsonException
      */
     public static function executeJob(string $configId, array $callbackSettings = [], int $userId = 0, mixed $metaData = [], mixed $parentMonitoringItemId = null, ?callable $callback = null)
     {

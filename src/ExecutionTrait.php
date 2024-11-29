@@ -9,7 +9,6 @@ namespace Elements\Bundle\ProcessManagerBundle;
 
 use Elements\Bundle\ProcessManagerBundle\Model\Configuration;
 use Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem;
-use Monolog\Logger;
 
 trait ExecutionTrait
 {
