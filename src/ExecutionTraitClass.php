@@ -9,6 +9,9 @@ namespace Elements\Bundle\ProcessManagerBundle;
 
 use Pimcore\Cache\Runtime;
 
+/**
+ * @Deprecated Will be removed in the next major version
+ */
 trait ExecutionTraitClass
 {
     use ExecutionTrait;
