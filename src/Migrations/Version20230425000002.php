@@ -30,7 +30,7 @@ class Version20230425000002 extends BundleAwareMigration
         $list = new MonitoringItem\Listing();
         $list->setOrder('DESC');
         $list->setOrderKey('id');
-        foreach($list->load() as $item) {
+        foreach ($list->load() as $item) {
             $isDirty = false;
             if ($actions = $item->getActions()) {
                 foreach ($actions as $key => $action) {

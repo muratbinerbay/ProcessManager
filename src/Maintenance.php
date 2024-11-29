@@ -48,7 +48,7 @@ class Maintenance
 
         $items = $list->load();
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $ts = time() - $item->getModificationDate();
             $modDate = \Carbon\Carbon::createFromTimestamp($item->getModificationDate());
             $diff = $modDate->diffInHours(\Carbon\Carbon::now());
@@ -113,7 +113,7 @@ class Maintenance
 
                 $mail->html($html);
 
-                foreach($recipients as $emailAdr) {
+                foreach ($recipients as $emailAdr) {
                     try {
                         $mail->addTo($emailAdr);
                     } catch (\Exception $e) {

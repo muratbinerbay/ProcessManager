@@ -39,7 +39,7 @@ class ProcessManagerSampleCommandSimple extends AbstractCommand
         $metDataFileObject = MetaDataFile::getById('spample-id');
 
         $start = \Carbon\Carbon::now();
-        if($ts = $metDataFileObject->getData()['lastRun'] ?? null) {
+        if ($ts = $metDataFileObject->getData()['lastRun'] ?? null) {
             $lastRun = \Carbon\Carbon::createFromTimestamp($ts);
         } else {
             $lastRun = \Carbon\Carbon::now();
@@ -51,7 +51,7 @@ class ProcessManagerSampleCommandSimple extends AbstractCommand
 
         $monitoringItem->setCurrentWorkload(0)->setTotalWorkload(count($workload))->setMessage('Starting process')->save();
 
-        foreach($workload as $i => $item) {
+        foreach ($workload as $i => $item) {
             $monitoringItem->getLogger()->debug('Detailed log info for ' . $item);
             $monitoringItem->setMessage('Processing ' .$item)->setCurrentWorkload($i+1)->save();
             sleep(3);

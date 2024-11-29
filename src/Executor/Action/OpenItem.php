@@ -67,7 +67,7 @@ class OpenItem extends AbstractAction
      */
     protected function prepareDataForSetValues(array $data): array
     {
-        if(isset($data['itemId']) && $data['itemId'] === '') {
+        if (isset($data['itemId']) && $data['itemId'] === '') {
             $data['itemId'] = null;
         }
 
@@ -156,7 +156,7 @@ class OpenItem extends AbstractAction
 
         if (in_array($monitoringItem->getStatus(), $actionData['executeAtStates'])) {
             $item = $this->getItem($monitoringItem, $actionData);
-            if($item) {
+            if ($item) {
                 $data['item_exists'] = true;
                 $data['item_type'] = $item->getType();
             } else {

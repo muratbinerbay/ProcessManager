@@ -7,8 +7,8 @@
 
 $path = __DIR__.'/';
 
-for($i=1; $i < 10; $i++) {
-    if(file_exists($path.'/vendor/autoload.php')) {
+for ($i=1; $i < 10; $i++) {
+    if (file_exists($path.'/vendor/autoload.php')) {
         define('PIMCORE_PROJECT_ROOT', $path);
 
         break;

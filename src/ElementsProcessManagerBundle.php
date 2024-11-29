@@ -120,8 +120,8 @@ class ElementsProcessManagerBundle extends AbstractPimcoreBundle implements Pimc
         ];
 
         $callbackClasses = ElementsProcessManagerBundle::getConfiguration()->getClassTypes()['executorCallbackClasses'];
-        foreach($callbackClasses as $e) {
-            if($file = $e['jsFile']) {
+        foreach ($callbackClasses as $e) {
+            if ($file = $e['jsFile']) {
                 $files[] = $file;
             }
         }
@@ -241,7 +241,7 @@ class ElementsProcessManagerBundle extends AbstractPimcoreBundle implements Pimc
     public static function getMonitoringItem(bool $createDummyObjectIfRequired = true): ?MonitoringItem
     {
         if ($createDummyObjectIfRequired && !self::$monitoringItem) {
-            if(getenv(self::MONITORING_ITEM_ENV_VAR)) {
+            if (getenv(self::MONITORING_ITEM_ENV_VAR)) {
                 self::$monitoringItem = MonitoringItem::getById((int)getenv(self::MONITORING_ITEM_ENV_VAR));
                 self::$monitoringItem->setStatus(MonitoringItem::STATUS_RUNNING)->save();
             } else {

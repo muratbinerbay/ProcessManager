@@ -16,7 +16,7 @@ class Logger extends ApplicationLogger
         parent::log($level, $message, $context);
         $monitoringItem = \Elements\Bundle\ProcessManagerBundle\ElementsProcessManagerBundle::getMonitoringItem();
 
-        if(($check = $monitoringItem->getCriticalErrorLevel()) && in_array($level, $check)) {
+        if (($check = $monitoringItem->getCriticalErrorLevel()) && in_array($level, $check)) {
             $monitoringItem->setHasCriticalError(true)->save();
         }
     }
@@ -27,8 +27,8 @@ class Logger extends ApplicationLogger
         /**
          * @var \Monolog\Logger $logger
          */
-        foreach($this->loggers as $logger) {
-            foreach($logger->getHandlers() as $handler) {
+        foreach ($this->loggers as $logger) {
+            foreach ($logger->getHandlers() as $handler) {
                 $handler->close();
             }
         }

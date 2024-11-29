@@ -107,9 +107,9 @@ abstract class AbstractAction
     public function setValues(array $data): void
     {
         $data = $this->prepareDataForSetValues($data);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
-            if(method_exists($this, $setter)) {
+            if (method_exists($this, $setter)) {
                 $this->$setter($value);
             }
         }

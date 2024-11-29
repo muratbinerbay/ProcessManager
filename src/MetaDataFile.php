@@ -98,7 +98,7 @@ class MetaDataFile
     public function delete(): void
     {
         $file = self::getFile($this->getIdentifier());
-        if(is_file($file)) {
+        if (is_file($file)) {
             @unlink($file);
         }
     }

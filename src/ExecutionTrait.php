@@ -66,14 +66,14 @@ trait ExecutionTrait
     public static function initProcessManager(?int $monitoringId, array $options = []): ?\Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem
     {
         if (!ElementsProcessManagerBundle::getMonitoringItem(false) instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
-            if(!array_key_exists('autoCreate', $options)) {
+            if (!array_key_exists('autoCreate', $options)) {
                 $options['autoCreate'] = false;
             }
             $monitoringItem = null;
             if ($monitoringId) {
                 $monitoringItem = MonitoringItem::getById($monitoringId);
                 ElementsProcessManagerBundle::setMonitoringItem($monitoringItem);
-            } elseif(getenv(ElementsProcessManagerBundle::MONITORING_ITEM_ENV_VAR)) { //check for env passed
+            } elseif (getenv(ElementsProcessManagerBundle::MONITORING_ITEM_ENV_VAR)) { //check for env passed
                 $monitoringId = (int)getenv(ElementsProcessManagerBundle::MONITORING_ITEM_ENV_VAR);
                 $monitoringItem = MonitoringItem::getById($monitoringId);
                 ElementsProcessManagerBundle::setMonitoringItem($monitoringItem);
@@ -82,7 +82,7 @@ trait ExecutionTrait
             if ($options['autoCreate'] && !$monitoringItem) {
                 $options['command'] = self::getCommand($options);
 
-                if(!array_key_exists('name', $options)) {
+                if (!array_key_exists('name', $options)) {
                     $commandParts = explode_and_trim(' ', $options['command']);
                     $options['name'] = $commandParts[1] ?? '';
                 }
@@ -237,9 +237,9 @@ trait ExecutionTrait
         if ($owner === false) {
             throw new \Exception("Couldn't get user from file " . $configFile);
         }
-        if(function_exists('posix_getpwuid')) {
+        if (function_exists('posix_getpwuid')) {
             $userData = posix_getpwuid($owner);
-            if($userData) {
+            if ($userData) {
                 $allowedUsers[] = $userData['name'];
 
                 $scriptExecutingUserData = posix_getpwuid(posix_geteuid());
@@ -268,15 +268,15 @@ trait ExecutionTrait
     {
         $workloadChunks = array_chunk($workload, $batchSize); //entries per process
         $childProcesses = $monitoringItem->getChildProcesses();
-        foreach($childProcesses as $c) {
+        foreach ($childProcesses as $c) {
             $c->delete();
         }
         $monitoringItem->setCurrentWorkload(0)->setTotalWorkload(count($workload))->setMessage('Starting child processes')->save();
 
         $i = 0;
-        foreach($workloadChunks as $i => $package) {
+        foreach ($workloadChunks as $i => $package) {
 
-            if($startAfterPackage && $startAfterPackage > ($i + 1)) {
+            if ($startAfterPackage && $startAfterPackage > ($i + 1)) {
                 $monitoringItem->getLogger()->debug('Skipping Package' . ($i + 1));
 
                 continue;
@@ -284,15 +284,15 @@ trait ExecutionTrait
 
             $monitoringItem->setMessage('Processing batch '. ($i + 1) . ' of ' . count($workloadChunks))->save();
 
-            for($x = 1; $x <= 3; $x++) {
+            for ($x = 1; $x <= 3; $x++) {
                 $result = Helper::executeJob($monitoringItem->getConfigurationId(), $monitoringItem->getCallbackSettings(), 0, $package, $monitoringItem->getId(), $callback);
 
-                if($result['success'] == false) {
+                if ($result['success'] == false) {
                     $attempts = $i === 1 ? "$i time" : "$i times";
                     $monitoringItem->getLogger()->warning("Can't start child (tried $attempts) - reason: " . $result['message']);
 
                     sleep(5);
-                    if($x == 3) {
+                    if ($x == 3) {
                         throw new \Exception("Can't start child  - reason: " . $result['message']);
                     }
                 } else {
@@ -315,13 +315,13 @@ trait ExecutionTrait
     {
         $statuses = $monitoringItem->getChildProcessesStatus();
         $monitoringItem->setModificationDate(time())->save();
-        if($statuses['summary']['failed'] && static::getChildProcessErrorHandling() == 'strict') {
-            foreach([MonitoringItem::STATUS_RUNNING, MonitoringItem::STATUS_INITIALIZING, MonitoringItem::STATUS_UNKNOWN] as $status) {
+        if ($statuses['summary']['failed'] && static::getChildProcessErrorHandling() == 'strict') {
+            foreach ([MonitoringItem::STATUS_RUNNING, MonitoringItem::STATUS_INITIALIZING, MonitoringItem::STATUS_UNKNOWN] as $status) {
                 $items = $statuses['details'][$status] ?? [];
-                foreach((array)$items as $entry) {
+                foreach ((array)$items as $entry) {
                     $mItem = MonitoringItem::getById($entry['id']);
 
-                    if($mItem) {
+                    if ($mItem) {
                         $mItem->stopProcess();
                         $mItem->setMessage('Killed by MonitoringItem ID '. $monitoringItem->getId(). ' because child process failed', false)->save();
                     }

@@ -17,8 +17,8 @@ class StopProcessHandler
 {
     public function __invoke(StopProcessMessage $message): void
     {
-        if($monitoringItem = MonitoringItem::getById($message->getMonitoringItemId())) {
-            if(!$pid = $monitoringItem->getPid()) {
+        if ($monitoringItem = MonitoringItem::getById($message->getMonitoringItemId())) {
+            if (!$pid = $monitoringItem->getPid()) {
                 return;
             }
 

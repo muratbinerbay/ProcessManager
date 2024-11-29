@@ -23,26 +23,26 @@ class RestController extends FrontendController
     protected function getApiUser(Request $request): JsonResponse|User
     {
         $user = User::getByName($request->get('username'));
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return $this->json(['success' => false, 'message' => 'User not found']);
         }
 
         $config = \Elements\Bundle\ProcessManagerBundle\ElementsProcessManagerBundle::getConfiguration();
         $validApiUser = false;
 
-        foreach($config->getRestApiUsers() as $entry) {
-            if($entry['username'] == $user->getName()) {
-                if($request->get('apiKey') == $entry['apiKey']) {
+        foreach ($config->getRestApiUsers() as $entry) {
+            if ($entry['username'] == $user->getName()) {
+                if ($request->get('apiKey') == $entry['apiKey']) {
                     $validApiUser = true;
                 } else {
                     return $this->json(['success' => false, 'message' => 'No valid api key for user']);
                 }
             }
         }
-        if(!$validApiUser) {
+        if (!$validApiUser) {
             return $this->json(['success' => false, 'message' => 'The user is not a valid api user']);
         }
-        if(!$user->getPermission(Enums\Permissions::EXECUTE) || !$user->getPermission(Enums\Permissions::VIEW)) {
+        if (!$user->getPermission(Enums\Permissions::EXECUTE) || !$user->getPermission(Enums\Permissions::VIEW)) {
             return $this->json(['success' => false, 'message' => 'Missing permissions for user']);
         }
 
@@ -53,7 +53,7 @@ class RestController extends FrontendController
     public function executeAction(Request $request): JsonResponse
     {
         $user = $this->getApiUser($request);
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return $user;
         }
 
@@ -99,7 +99,7 @@ class RestController extends FrontendController
     public function monitoringItemStateAction(Request $request): JsonResponse
     {
         $user = $this->getApiUser($request);
-        if($user instanceof User == false) {
+        if ($user instanceof User == false) {
             return $user;
         }
 

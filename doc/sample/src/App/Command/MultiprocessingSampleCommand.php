@@ -38,7 +38,7 @@ class MultiprocessingSampleCommand extends AbstractCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $monitoringItem = $this->initProcessManager($input->getOption('monitoring-item-id'), ['autoCreate' => true]);
-        if($input->getOption('monitoring-item-parent-id')) {
+        if ($input->getOption('monitoring-item-parent-id')) {
             $this->executeChild($input, $output, $monitoringItem); //child process
         } else {
             $this->executeParent($input, $output, $monitoringItem); //main process
@@ -75,18 +75,18 @@ class MultiprocessingSampleCommand extends AbstractCommand
         $workload = $monitoringItem->getMetaData();
 
         $monitoringItem->setCurrentWorkload(0)->setTotalWorkload(count($workload))->setMessage('Processing Data')->save();
-        foreach($workload as $i => $data) {
+        foreach ($workload as $i => $data) {
 
             //$object = \AppBundle\Model\DataObject\Product::getById($data['id']);
             $object = new \stdClass();
 
-            if($data['id'] == 88) {
+            if ($data['id'] == 88) {
                 //    throw new \Exception('Oh something happened with 88');
             }
             /**
              * @phpstan-ignore-next-line
              */
-            if($object) {
+            if ($object) {
                 $monitoringItem->setMessage('Updating object ID:' . $data['id'])->setCurrentWorkload($i+1)->save();
                 //$object->setName($data['name'].' MID: ' . $monitoringItem->getId() ,'en');
                 //$object->save();

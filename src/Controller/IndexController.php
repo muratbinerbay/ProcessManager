@@ -75,7 +75,7 @@ class IndexController extends UserAwareController
 
         $shortCutMenu = [];
 
-        if($bundleConfig->getDisableShortcutMenu() == false) {
+        if ($bundleConfig->getDisableShortcutMenu() == false) {
             $list = new Configuration\Listing();
             $list->setUser($this->getPimcoreUser());
             $list->setOrderKey('name');
@@ -92,7 +92,7 @@ class IndexController extends UserAwareController
 
         $data['refreshIntervalSeconds'] = $bundleConfig->getRefreshIntervalSeconds();
 
-        if($data['shortCutMenu'] ?? null) {
+        if ($data['shortCutMenu'] ?? null) {
             ksort($data['shortCutMenu'], SORT_LOCALE_STRING);
         }
 
@@ -106,7 +106,7 @@ class IndexController extends UserAwareController
     public function downloadAction(Request $request): ?Response
     {
         $monitoringItem = MonitoringItem::getById($request->get('id'));
-        if(!$monitoringItem) {
+        if (!$monitoringItem) {
             throw $this->createNotFoundException('MonitoringItem Not Found');
         }
         $actions = $monitoringItem->getActions();

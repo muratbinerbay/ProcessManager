@@ -33,10 +33,10 @@ class PimcoreCommand extends AbstractExecutor
             $command .= ' ' . $options;
         }
 
-        if($monitoringItem instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
+        if ($monitoringItem instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
             $commands = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class)->getValidCommands();
 
-            if(!array_key_exists($this->getValues()['command'], $commands)) {
+            if (!array_key_exists($this->getValues()['command'], $commands)) {
                 throw new \Exception('Invalid command - not in valid commands');
             }
             /**
@@ -44,11 +44,11 @@ class PimcoreCommand extends AbstractExecutor
              */
             $commandObject = $commands[$this->getValues()['command']];
 
-            if($commandObject->getDefinition()->hasOption('monitoring-item-id')) {
+            if ($commandObject->getDefinition()->hasOption('monitoring-item-id')) {
                 $command .= ' --monitoring-item-id='.$monitoringItem->getId();
             }
 
-            if($monitoringItem->getParentId()) {
+            if ($monitoringItem->getParentId()) {
                 $command .= ' --monitoring-item-parent-id='.$monitoringItem->getParentId();
             }
         }

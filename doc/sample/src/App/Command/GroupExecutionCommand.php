@@ -57,18 +57,18 @@ class GroupExecutionCommand extends AbstractCommand
             //start the child job
             $result = Helper::executeJob($config->getId(), [], $monitoringItem->getExecutedByUser(), [], $monitoringItem->getId());
 
-            if($result['success'] == false) {
+            if ($result['success'] == false) {
                 throw new \Exception("Cant' start command " . $command->getId().' Error: ' . $result['error']);
             } else {
                 $logger->debug('Executed child command: ' . $result['executedCommand']);
 
                 sleep(2); //give them a little time to ramp up and set the state
                 while ($childMonitoringItem = MonitoringItem::getById($result['monitoringItemId'])) {
-                    if($childMonitoringItem->isAlive()) {
+                    if ($childMonitoringItem->isAlive()) {
                         $logger->debug('Child process state (ID: '.$childMonitoringItem->getId().'): ' . $childMonitoringItem->getStatus());
                         sleep(1); //wait until the next check
                     } else {
-                        if(in_array($childMonitoringItem->getStatus(), [$childMonitoringItem::STATUS_FINISHED, $childMonitoringItem::STATUS_FINISHED_WITH_ERROR])) {
+                        if (in_array($childMonitoringItem->getStatus(), [$childMonitoringItem::STATUS_FINISHED, $childMonitoringItem::STATUS_FINISHED_WITH_ERROR])) {
                             //everything ok -> continue with the next
                             break;
                         } else {

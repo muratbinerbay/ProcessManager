@@ -30,7 +30,7 @@ class Helper
         try {
             $config = Configuration::getById($configId);
 
-            if(!$config instanceof \Elements\Bundle\ProcessManagerBundle\Model\Configuration) {
+            if (!$config instanceof \Elements\Bundle\ProcessManagerBundle\Model\Configuration) {
                 $config = new Configuration();
                 $config->setExecutorClass(Executor\PimcoreCommand::class);
             }
@@ -70,7 +70,7 @@ class Helper
                 }
             }
 
-            if($callback) {
+            if ($callback) {
                 $callback($monitoringItem, $executor);
             }
             $monitoringItem->setMessengerPending(true);
@@ -119,7 +119,7 @@ class Helper
             if ($user->getPermissions()) {
 
                 $permissionConditions = [];
-                foreach($user->getPermissions() as $permission) {
+                foreach ($user->getPermissions() as $permission) {
                     $permissionConditions[] = 'restrictToPermissions LIKE "%,' . $permission . ',%" ';
                 }
                 $c .= ' AND (restrictToPermissions = "" OR (' . implode(' OR ', $permissionConditions) . ')) ';
@@ -143,15 +143,15 @@ class Helper
     {
         $loggers = $monitoringItem->getLoggers();
 
-        foreach((array)$loggers as $i => $loggerConfig) {
+        foreach ((array)$loggers as $i => $loggerConfig) {
             $loggerClass = $loggerConfig['class'];
             if (!class_exists($loggerClass)) {
                 continue;
             }
             $logObj = new $loggerClass;
-            if(method_exists($logObj, 'handleShutdown')) {
+            if (method_exists($logObj, 'handleShutdown')) {
                 $result = $logObj->handleShutdown($monitoringItem, $loggerConfig);
-                if($result) {
+                if ($result) {
                     $loggers[$i] = array_merge($loggerConfig, $result);
                 }
             }

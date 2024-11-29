@@ -23,7 +23,7 @@ class ExecutorDefinitionPass implements CompilerPassInterface
 
         $config = $container->getParameter('elements_process_manager');
 
-        foreach(Enums\General::EXECUTOR_CLASS_TYPES as $category) {
+        foreach (Enums\General::EXECUTOR_CLASS_TYPES as $category) {
             $config[$category] = [];
             $taggedServices = $container->findTaggedServiceIds("elements.processManager.$category");
             if ($taggedServices !== []) {
@@ -36,7 +36,7 @@ class ExecutorDefinitionPass implements CompilerPassInterface
                         'class' => $object::class,
                         'config' => $object->getConfig(),
                     ];
-                    if($object instanceof Executor\Callback\AbstractCallback) {
+                    if ($object instanceof Executor\Callback\AbstractCallback) {
                         $tmp['jsFile'] = $object->getJsFile();
                     }
                     $config[$category][$object->getName()] = $tmp;

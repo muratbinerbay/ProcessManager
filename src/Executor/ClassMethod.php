@@ -26,7 +26,7 @@ class ClassMethod extends AbstractExecutor
     {
         $command =  Console::getPhpCli() . ' ' . realpath(PIMCORE_PROJECT_ROOT . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'console') . ' process-manager:class-method-executor -v';
 
-        if($monitoringItem instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
+        if ($monitoringItem instanceof \Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem) {
             $command .= ' --monitoring-item-id='.$monitoringItem->getId();
         }
 

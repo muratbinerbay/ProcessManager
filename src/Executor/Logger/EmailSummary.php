@@ -70,7 +70,7 @@ class EmailSummary extends AbstractLogger
     {
         $dir = \Elements\Bundle\ProcessManagerBundle\ElementsProcessManagerBundle::getLogDir().'email/' . $monitoringItem->getId() ;
 
-        if(!is_dir($dir)) {
+        if (!is_dir($dir)) {
             $filesystem = new Filesystem();
             $filesystem->mkdir($dir, 0755);
         }
@@ -87,13 +87,13 @@ class EmailSummary extends AbstractLogger
     {
 
         $logFile = $this->getLogFile($monitoringItem, $loggerConfig);
-        if($file = is_file($logFile)) {
+        if ($file = is_file($logFile)) {
             $mail = new \Pimcore\Mail();
             $mail->subject($loggerConfig['subject']);
 
             $to = array_filter(explode(';', (string) $loggerConfig['to']));
-            if($to !== []) {
-                foreach($to as &$email) {
+            if ($to !== []) {
+                foreach ($to as &$email) {
                     $email = trim($email);
                     $mail->addTo($email);
                 }

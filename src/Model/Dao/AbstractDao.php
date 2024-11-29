@@ -41,9 +41,9 @@ abstract class AbstractDao extends \Pimcore\Model\Dao\AbstractDao
             if (in_array($key, $this->validColumns)) {
                 if (is_object($value)) {
                     $value = $value::class;
-                } elseif(is_array($value)) {
-                    foreach($value as $k => $v) {
-                        if(is_object($v) && method_exists($v, 'getStorageData')) {
+                } elseif (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        if (is_object($v) && method_exists($v, 'getStorageData')) {
                             $value[$k] = $v->getStorageData();
                         }
                     }
