@@ -36,7 +36,7 @@ trait ExecutionTrait
         global $argv;
         $command = empty($options['command']) ? implode(' ', $argv) : $options['command'];
 
-        return trim((string) $command);
+        return trim((string)$command);
     }
 
     public static function getChildProcessErrorHandling(): string
@@ -126,7 +126,7 @@ trait ExecutionTrait
                             $monitoringItem->setName($config->getName())->save();
                         }
                         if (!$config->getActive()) {
-                            exit('ProcessManager: Config with ID ' . $config->getId().' is disabled - exiting');
+                            exit('ProcessManager: Config with ID ' . $config->getId() . ' is disabled - exiting');
                         }
                     }
                     $values = $config instanceof \Elements\Bundle\ProcessManagerBundle\Model\Configuration ? $config->getExecutorClassObject()->getValues() : $options;
@@ -189,9 +189,9 @@ trait ExecutionTrait
                     ElementsProcessManagerBundle::getMonitoringItem()->delete();
                 }
             }
-            ElementsProcessManagerBundle::getMonitoringItem()->getLogger()->info('Another process with the PID ' . getmypid().' started. Exiting Process:' . getmypid());
+            ElementsProcessManagerBundle::getMonitoringItem()->getLogger()->info('Another process with the PID ' . getmypid() . ' started. Exiting Process:' . getmypid());
             ElementsProcessManagerBundle::setMonitoringItem(null);
-            exit("\n\nProcessManager: $count ".($count > 1 ? 'processes running' : 'process running'). " - exiting\n\n");
+            exit("\n\nProcessManager: $count " . ($count > 1 ? 'processes running' : 'process running') . " - exiting\n\n");
         }
     }
 
@@ -230,7 +230,7 @@ trait ExecutionTrait
      */
     public static function checkExecutingUser(array $allowedUsers = []): void
     {
-        $configFile = PIMCORE_WEB_ROOT.'/index.php';
+        $configFile = PIMCORE_WEB_ROOT . '/index.php';
         $owner = fileowner($configFile);
 
         if ($owner === false) {
@@ -245,7 +245,7 @@ trait ExecutionTrait
                 $scriptExecutingUser = $scriptExecutingUserData['name'];
 
                 if (!in_array($scriptExecutingUser, $allowedUsers)) {
-                    throw new \Exception("The current system user is not allowed to execute this script. Allowed users: '" . implode(',', $allowedUsers) ."' Executing user: '$scriptExecutingUser'.");
+                    throw new \Exception("The current system user is not allowed to execute this script. Allowed users: '" . implode(',', $allowedUsers) . "' Executing user: '$scriptExecutingUser'.");
                 }
             }
         }
@@ -270,7 +270,8 @@ trait ExecutionTrait
         foreach ($childProcesses as $c) {
             $c->delete();
         }
-        $monitoringItem->setCurrentWorkload(0)->setTotalWorkload(count($workload))->setMessage('Starting child processes')->save();
+        $totalWorkload = count($workloadChunks);
+        $monitoringItem->setCurrentWorkload(0)->setTotalWorkload($totalWorkload)->setMessage('Starting child processes')->save();
 
         $i = 0;
         foreach ($workloadChunks as $i => $package) {
@@ -281,12 +282,12 @@ trait ExecutionTrait
                 continue;
             }
 
-            $monitoringItem->setMessage('Processing batch '. ($i + 1) . ' of ' . count($workloadChunks))->save();
+            $monitoringItem->setMessage('Processing batch ' . ($i + 1) . ' of ' . $totalWorkload)->save();
 
             for ($x = 1; $x <= 3; $x++) {
                 $result = Helper::executeJob($monitoringItem->getConfigurationId(), $monitoringItem->getCallbackSettings(), 0, $package, $monitoringItem->getId(), $callback);
 
-                if ($result['success'] == false) {
+                if (!$result['success']) {
                     $attempts = $i === 1 ? "$i time" : "$i times";
                     $monitoringItem->getLogger()->warning("Can't start child (tried $attempts) - reason: " . $result['message']);
 
@@ -298,9 +299,9 @@ trait ExecutionTrait
                     break;
                 }
             }
-            self::waitForChildProcesses($monitoringItem, $i * $batchSize, $numberOfchildProcesses);
+            self::waitForChildProcesses($monitoringItem, $i, $numberOfchildProcesses);
         }
-        self::waitForChildProcesses($monitoringItem, $i * $batchSize);
+        self::waitForChildProcesses($monitoringItem, $i, $numberOfchildProcesses);
     }
 
     /**
@@ -322,12 +323,12 @@ trait ExecutionTrait
 
                     if ($mItem) {
                         $mItem->stopProcess();
-                        $mItem->setMessage('Killed by MonitoringItem ID '. $monitoringItem->getId(). ' because child process failed', false)->save();
+                        $mItem->setMessage('Killed by MonitoringItem ID ' . $monitoringItem->getId() . ' because child process failed', false)->save();
                     }
                 }
             }
 
-            throw new \Exception('Exiting because child failed: ' .print_r($statuses['details'][MonitoringItem::STATUS_FAILED], true));
+            throw new \Exception('Exiting because child failed: ' . print_r($statuses['details'][MonitoringItem::STATUS_FAILED], true));
         }
 
     }
@@ -348,13 +349,13 @@ trait ExecutionTrait
      *
      * @throws \Exception
      */
-    protected static function waitForChildProcesses(MonitoringItem $monitoringItem, int $baseline, int $maxProcesses = 0): void
+    protected static function waitForChildProcesses(MonitoringItem $monitoringItem, int $currentBatchIteration, int $maxProcesses = 0): void
     {
         do {
             $status = $monitoringItem->getChildProcessesStatus();
             $activeProcesses = $status['summary']['active'];
 
-            $monitoringItem->setCurrentWorkload($baseline + $status['currentWorkload'])->save();
+            $monitoringItem->setCurrentWorkload((int)($status['summary']['finished'] + $status['summary']['failed']))->save();
 
             $monitoringItem->getLogger()->info('Waiting to start child processes -> status: ' . print_r($status['summary'], true));
             static::childProcessCheck($monitoringItem);

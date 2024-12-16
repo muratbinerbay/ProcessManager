@@ -20,7 +20,7 @@ class Configuration extends \Pimcore\Model\AbstractModel
 {
     public ?string $id;
 
-    public string $name;
+    public string $name = '';
 
     public string $group;
 
@@ -32,7 +32,7 @@ class Configuration extends \Pimcore\Model\AbstractModel
 
     public mixed $executorClass;
 
-    public string $executorSettings;
+    public string $executorSettings = '';
 
     public string $cronJob;
 
