@@ -301,7 +301,9 @@ trait ExecutionTrait
             }
             self::waitForChildProcesses($monitoringItem, $i, $numberOfchildProcesses);
         }
-        self::waitForChildProcesses($monitoringItem, $i, $numberOfchildProcesses);
+
+        //make sure all child processes are finished
+        self::waitForChildProcesses($monitoringItem, $i, 0);
     }
 
     /**
@@ -332,24 +334,11 @@ trait ExecutionTrait
         }
 
     }
-    /*
-     * @param int $i
-     * @param int $batchSize
-     * @param int $numberOfchildProcesses
-     *
-     * @throws \Exception
-     */
 
     /**
-     * @param MonitoringItem $monitoringItem
-     * @param int $baseline
-     * @param int $maxProcesses
-     *
-     * @return void
-     *
      * @throws \Exception
      */
-    protected static function waitForChildProcesses(MonitoringItem $monitoringItem, int $currentBatchIteration, int $maxProcesses = 0): void
+    protected static function waitForChildProcesses(MonitoringItem $monitoringItem, int $currentBatchIteration, int $maxProcesses): void
     {
         do {
             $status = $monitoringItem->getChildProcessesStatus();
