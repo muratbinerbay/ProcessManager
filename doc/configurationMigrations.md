@@ -17,5 +17,5 @@ The namespace and location can be changed with the following settings.
 ````yaml
 elements_process_manager:
     configurationMigrationsDirectory: "%kernel.project_dir%/src/Migrations"
-    configurationMigrationsNamespace: "App\Migrations"
+    configurationMigrationsNamespace: 'App\Migrations'
 ``
