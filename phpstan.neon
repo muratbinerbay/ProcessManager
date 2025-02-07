@@ -13,6 +13,7 @@ parameters:
     excludePaths:
         analyse:
             - src/*/*.html.php
+            - src/ExecutionTraitClass.php
 
 	# see https://phpstan.org/config-reference#universal-object-crates
     universalObjectCratesClasses:
