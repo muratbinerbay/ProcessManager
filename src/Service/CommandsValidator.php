@@ -8,6 +8,8 @@
 namespace Elements\Bundle\ProcessManagerBundle\Service;
 
 use Elements\Bundle\ProcessManagerBundle\ExecutionTrait;
+use Elements\Bundle\ProcessManagerBundle\Model\Configuration;
+use Exception;
 use Pimcore\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LazyCommand;
@@ -40,6 +42,22 @@ class CommandsValidator
         $this->setBlackList($blackList);
     }
 
+    public function validateCommandConfiguration(LazyCommand | Command $command, Configuration $configuration): void
+    {
+
+        $settings = $configuration->getExecutorSettingsAsArray();
+        $values = $settings['values'];
+
+        $commandOptions = $values['commandOptions'] ?? '';
+
+
+
+        //Todo: check if command options are valid
+        //and throw an error if they are not valid
+
+#        throw new Exception('Command options are not valid');
+
+    }
     /**
      * @return array<mixed>
      */

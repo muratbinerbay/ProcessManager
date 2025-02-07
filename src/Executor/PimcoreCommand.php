@@ -7,8 +7,10 @@
 
 namespace Elements\Bundle\ProcessManagerBundle\Executor;
 
+use Elements\Bundle\ProcessManagerBundle\Model\Configuration;
 use Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem;
 use Elements\Bundle\ProcessManagerBundle\Service\CommandsValidator;
+use Exception;
 use Pimcore\Tool\Console;
 
 class PimcoreCommand extends AbstractExecutor
@@ -22,6 +24,7 @@ class PimcoreCommand extends AbstractExecutor
      * @param null | MonitoringItem $monitoringItem
      *
      * @return mixed
+     * @throws Exception
      */
     public function getCommand($callbackSettings = [], $monitoringItem = null)
     {
@@ -37,7 +40,7 @@ class PimcoreCommand extends AbstractExecutor
             $commands = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class)->getValidCommands();
 
             if (!array_key_exists($this->getValues()['command'], $commands)) {
-                throw new \Exception('Invalid command - not in valid commands');
+                throw new Exception('Invalid command - not in valid commands');
             }
             /**
              * @var \Pimcore\Console\AbstractCommand $commandObject
@@ -54,5 +57,22 @@ class PimcoreCommand extends AbstractExecutor
         }
 
         return $command;
+    }
+
+    public function validateConfiguration(Configuration $configuration): void
+    {
+
+        if($configuration->getExecutorSettings()){
+            $settings = $configuration->getExecutorSettingsAsArray();
+            $values = $settings['values'];
+            if(!$values['command']){
+                throw new Exception('Please provide a command.');
+            }
+            $commandValidator = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class);
+            $commands = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class)->getValidCommands();
+            $commandValidator->validateCommandConfiguration($commands[$values['command']], $configuration);
+
+
+        }
     }
 }

@@ -153,6 +153,7 @@ class ConfigController extends UserAwareController
         $configuration->setExecutorSettings($executorClass->getStorageValue());
 
         try {
+            $executorClass->validateConfiguration($configuration);
             $configuration->save(['oldId' => $request_configuration]);
         } catch (\Exception $e) {
             return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);

@@ -268,4 +268,12 @@ abstract class AbstractExecutor implements \JsonSerializable
 
         return $configuration;
     }
+
+    /**
+     * Validate the configuration settings and throw exception if something is wrong
+     */
+    public function validateConfiguration(Configuration $configuration): void
+    {
+
+    }
 }

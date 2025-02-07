@@ -139,6 +139,12 @@ class Configuration extends \Pimcore\Model\AbstractModel
         return $this->executorSettings;
     }
 
+    public function getExecutorSettingsAsArray(): array
+    {
+        return json_decode($this->getExecutorSettings(), true);
+    }
+
+
     /**
      * @return $this
      */

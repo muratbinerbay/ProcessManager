@@ -17,7 +17,6 @@ pimcore.plugin.processmanager.executor.class.pimcoreCommand = Class.create(pimco
         }
 
         this.command = {
-            fieldLabel: t("plugin_pm_command"),
             xtype: "combo",
             editable: false,
             name: "command",
@@ -26,8 +25,10 @@ pimcore.plugin.processmanager.executor.class.pimcoreCommand = Class.create(pimco
             store: store,
             mode: "local",
             width: "100%",
-            triggerAction: "all"
+            triggerAction: "all",
+            mandatory: true
         }
+        this.command.fieldLabel = this.getFieldLabel('command',this.command)
         return this.command;
     },
 

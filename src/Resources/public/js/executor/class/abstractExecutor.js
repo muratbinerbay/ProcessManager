@@ -278,7 +278,11 @@ pimcore.plugin.processmanager.executor.class.abstractExecutor = Class.create(pim
                         Ext.getCmp('plugin_pm_config_list_panel').store.reload();
                     }
                     else {
-                        pimcore.helpers.showNotification(t("error"), t("plugin_pm_config_saved_error"), "error", t(rdata.message));
+                        let errorMessage = t("plugin_pm_config_saved_error");
+                        if(rdata.message) {
+                            errorMessage += ': ' + rdata.message
+                        }
+                        pimcore.helpers.showNotification(t("error"),  errorMessage , "error");
                     }
                 } catch (e) {
                     pimcore.helpers.showNotification(t("error"), t("plugin_pm_config_saved_error"), "error");
