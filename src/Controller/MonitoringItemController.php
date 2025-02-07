@@ -13,6 +13,7 @@ use Elements\Bundle\ProcessManagerBundle\Executor\Action\AbstractAction;
 use Elements\Bundle\ProcessManagerBundle\Executor\Logger\AbstractLogger;
 use Elements\Bundle\ProcessManagerBundle\Executor\Logger\Application;
 use Elements\Bundle\ProcessManagerBundle\Executor\Logger\File;
+use Elements\Bundle\ProcessManagerBundle\Helper;
 use Elements\Bundle\ProcessManagerBundle\Message\ExecuteCommandMessage;
 use Elements\Bundle\ProcessManagerBundle\Model\Configuration;
 use Elements\Bundle\ProcessManagerBundle\Model\MonitoringItem;
@@ -211,7 +212,7 @@ class MonitoringItemController extends UserAwareController
 
         if ($tmp['executedByUser']) {
             $user = User::getById($tmp['executedByUser']);
-            $tmp['executedByUser'] = $user instanceof \Pimcore\Model\User ? $user->getName() : 'User id: ' . $tmp['executedByUser'];
+            $tmp['executedByUser'] = $user instanceof User ? $user->getName() : 'User id: ' . $tmp['executedByUser'];
         } else {
             $tmp['executedByUser'] = 'System';
         }
@@ -346,11 +347,29 @@ class MonitoringItemController extends UserAwareController
     {
         $config = [];
         $logFile = null;
-        if ($profiler instanceof \Symfony\Component\HttpKernel\Profiler\Profiler) {
+        if ($profiler instanceof Profiler) {
             $profiler->disable();
         }
         $viewData = [];
         $monitoringItem = MonitoringItem::getById($request->get('id'));
+
+        /**
+         * @var \Pimcore\Security\User\User $tokenUser
+         */
+        $tokenUser = $this->getUser();
+        $user = $tokenUser->getUser();
+
+        if (!$user->isAdmin()) {
+            $ids = Helper::getAllowedConfigIdsByUser($user);
+            if (!$monitoringItem->getConfigurationId()) {
+                throw new \Exception('Non admin user can only view log files where they have the configured
+                access rights (current monitoring item has no configuration id)');
+            } else {
+                if (!in_array($monitoringItem->getConfigurationId(), $ids)) {
+                    throw new \Exception('The current user doesn\'t have the permisson to view this log files');
+                }
+            }
+        }
 
         $loggerIndex = $request->get('loggerIndex');
         if ($loggers = $monitoringItem->getLoggers()) {
