@@ -24,6 +24,7 @@ class PimcoreCommand extends AbstractExecutor
      * @param null | MonitoringItem $monitoringItem
      *
      * @return mixed
+     *
      * @throws Exception
      */
     public function getCommand($callbackSettings = [], $monitoringItem = null)
@@ -62,16 +63,15 @@ class PimcoreCommand extends AbstractExecutor
     public function validateConfiguration(Configuration $configuration): void
     {
 
-        if($configuration->getExecutorSettings()){
+        if ($configuration->getExecutorSettings()) {
             $settings = $configuration->getExecutorSettingsAsArray();
             $values = $settings['values'];
-            if(!$values['command']){
+            if (!$values['command']) {
                 throw new Exception('Please provide a command.');
             }
             $commandValidator = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class);
             $commands = \Pimcore::getKernel()->getContainer()->get(CommandsValidator::class)->getValidCommands();
             $commandValidator->validateCommandConfiguration($commands[$values['command']], $configuration);
-
 
         }
     }

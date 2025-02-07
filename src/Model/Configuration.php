@@ -147,7 +147,6 @@ class Configuration extends \Pimcore\Model\AbstractModel
         return json_decode($this->getExecutorSettings(), true);
     }
 
-
     /**
      * @return $this
      */

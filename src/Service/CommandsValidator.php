@@ -50,14 +50,13 @@ class CommandsValidator
 
         $commandOptions = $values['commandOptions'] ?? '';
 
-
-
         //Todo: check if command options are valid
         //and throw an error if they are not valid
 
-#        throw new Exception('Command options are not valid');
+        //        throw new Exception('Command options are not valid');
 
     }
+
     /**
      * @return array<mixed>
      */
