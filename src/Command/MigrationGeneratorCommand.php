@@ -51,7 +51,7 @@ final class <versionName> extends AbstractMigration
     }
 
     /**
-    * @var string[]
+    * @var array<string,mixed>
      */
     protected array $configurationData = <configurationData>;
 
