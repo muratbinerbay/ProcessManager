@@ -76,6 +76,7 @@ class Helper
             $item = $monitoringItem->save();
 
             $command = $executor->getCommand($callbackSettings, $monitoringItem);
+            $command = escapeshellcmd($command); //prevent os command injection
 
             putenv(ElementsProcessManagerBundle::MONITORING_ITEM_ENV_VAR . '=' . $item->getId());
 
