@@ -1,3 +1,10 @@
+# No public Pimcore Studio support
+
+Dear community, please be aware of the fact that the Process Manager 
+Bundle won't be publically available for Pimcore Studio and newer Versions.
+More information can be found [here](https://github.com/valantic-at/ProcessManager/issues/230).
+
+
 # Pimcore Process Manager Bundle
 
 The Process Manager allows you to manage (define,execute...) arbitrary processes/commands in the Pimcore backend. 
