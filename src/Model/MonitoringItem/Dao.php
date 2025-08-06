@@ -79,7 +79,7 @@ class Dao extends AbstractDao
         });
         if (empty($quoteKeyData['`id`'])) {
             $db->insert($this->getTableName(), $quoteKeyData);
-            $this->model->setId($db->lastInsertId($this->getTableName()));
+            $this->model->setId($db->lastInsertId());
         } else {
             $result = $db->update($this->getTableName(), $quoteKeyData, ['id' => $this->model->getId()]);
         }
@@ -103,8 +103,7 @@ class Dao extends AbstractDao
             }
 
             $this->db
-                ->prepare('DELETE FROM ' . $this->getTableName() . ' WHERE `id` = ?')
-                ->executeQuery([$id]);
+                ->executeQuery('DELETE FROM ' . $this->getTableName() . ' WHERE `id` = ?', [$id]);
 
             if ($logFile = $this->model->getLogFile()) {
                 @unlink($logFile);
