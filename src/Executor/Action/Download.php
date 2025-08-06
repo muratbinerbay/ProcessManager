@@ -206,7 +206,7 @@ class Download extends AbstractAction
      */
     public function preMonitoringItemDeletion(MonitoringItem $monitoringItem, array $actionData): void
     {
-        if ($actionData['deleteWithMonitoringItem'] == true || $actionData['deleteWithMonitoringItem'] == 'on') {
+        if ($actionData['deleteWithMonitoringItem']) {
             $file = $this->buildFilePath($actionData);
             if (is_readable($file) && is_file($file)) {
                 unlink($file);
