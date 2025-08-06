@@ -1,7 +1,8 @@
 # No public Pimcore Studio support
 
 Dear community, please be aware of the fact that the Process Manager 
-Bundle won't be publically available for Pimcore Platform Version 2025.1 and newer.
+Bundle won't be publically available for Pimcore Platform Version 2025.1 and newer which are using the new Pimcore Studio admin interface.
+We are only supporting the current ExtJS backend but no further development will be done.
 More information can be found [here](https://github.com/valantic-at/ProcessManager/issues/230).
 
 
